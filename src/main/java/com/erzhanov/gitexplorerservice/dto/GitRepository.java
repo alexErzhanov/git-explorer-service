@@ -4,8 +4,12 @@ import lombok.*;
 
 import java.util.List;
 
-@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Builder
+@EqualsAndHashCode
 public class GitRepository {
     private String name;
     private boolean isFork;

@@ -1,6 +1,7 @@
 package com.erzhanov.gitexplorerservice.service;
 
 import com.erzhanov.gitexplorerservice.client.GithubClient;
+import com.erzhanov.gitexplorerservice.config.FeignConfiguration;
 import com.erzhanov.gitexplorerservice.dto.GitBranch;
 import com.erzhanov.gitexplorerservice.dto.GitCommit;
 import com.erzhanov.gitexplorerservice.dto.GitRepository;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
@@ -23,22 +25,26 @@ import static org.mockito.Mockito.*;
 class GithubRepoServiceUnitTest {
 
     @Mock
-    private GithubClient githubClient;
+    private GithubClient githubPrimaryClient;
+    @Mock
+    private FeignConfiguration feignConfiguration;
 
     private GitRepoService repoService;
 
     @BeforeEach
     void setUp() {
-        this.repoService = new GithubRepoService(githubClient);
+        this.repoService = new GithubRepoService(githubPrimaryClient, feignConfiguration);
+        lenient().when(feignConfiguration.getGithubUri()).thenReturn("uri");
+        lenient().when(feignConfiguration.getGithubFallbackUri()).thenReturn("uri");
     }
 
     @Test
     void findAllUserRepos_shouldReturnReposWithoutForks() {
         // given
-        when(githubClient.listRepos(anyString())).thenReturn(List.of(createRepo(1, false), createRepo(2, false), createRepo(3, true)));
+        when(githubPrimaryClient.listRepos(any(), anyString())).thenReturn(List.of(createRepo(1, false), createRepo(2, false), createRepo(3, true)));
         GitBranch gitBranch = givenBranch(1);
         GitBranch gitBranch1 = givenBranch(2);
-        when(githubClient.listBranches(eq("user"), anyString())).thenReturn(List.of(gitBranch, gitBranch1));
+        when(githubPrimaryClient.listBranches(any(), eq("user"), anyString())).thenReturn(List.of(gitBranch, gitBranch1));
 
         // when
         Flux<GitRepository> repoFlux = repoService.findAllUserRepos("user");
@@ -55,8 +61,8 @@ class GithubRepoServiceUnitTest {
                 })
                 .verifyComplete();
 
-        verify(githubClient, times(1)).listRepos("user");
-        verify(githubClient, times(2)).listBranches(eq("user"), anyString());
+        verify(githubPrimaryClient, times(1)).listRepos(any(), eq("user"));
+        verify(githubPrimaryClient, times(2)).listBranches(any(), eq("user"), anyString());
     }
 
     private GitRepository createRepo(int number, boolean isFork) {
