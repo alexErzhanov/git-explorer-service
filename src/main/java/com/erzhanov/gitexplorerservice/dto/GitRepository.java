@@ -1,13 +1,14 @@
 package com.erzhanov.gitexplorerservice.dto;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Data
-public class GitHubRepo {
+@Builder
+public class GitRepository {
     private String name;
-    private boolean fork;
+    private boolean isFork;
     private GitHubUser owner;
-    private List<GitHubBranch> branches;
+    private List<GitBranch> branches;
 }

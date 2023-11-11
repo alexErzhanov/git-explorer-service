@@ -1,7 +1,7 @@
 package com.erzhanov.gitexplorerservice.client;
 
-import com.erzhanov.gitexplorerservice.dto.GitHubBranch;
-import com.erzhanov.gitexplorerservice.dto.GitHubRepo;
+import com.erzhanov.gitexplorerservice.dto.GitBranch;
+import com.erzhanov.gitexplorerservice.dto.GitRepository;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,9 +13,9 @@ import java.util.List;
 public interface GithubClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/users/{username}/repos")
-    List<GitHubRepo> listRepos(@PathVariable("username") String username);
+    List<GitRepository> listRepos(@PathVariable("username") String username);
 
     @RequestMapping(method = RequestMethod.GET, value = "/repos/{owner}/{repo}/branches")
-    List<GitHubBranch> listBranches(@PathVariable("owner") String owner, @PathVariable("repo") String repo);
+    List<GitBranch> listBranches(@PathVariable("owner") String owner, @PathVariable("repo") String repo);
 
 }

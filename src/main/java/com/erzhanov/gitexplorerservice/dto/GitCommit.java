@@ -8,6 +8,6 @@ import lombok.*;
 @Setter
 @Builder
 @EqualsAndHashCode
-public class GitHubUser {
-    private String login;
+public class GitCommit {
+    private String sha;
 }

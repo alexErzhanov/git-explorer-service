@@ -1,6 +1,6 @@
 package com.erzhanov.gitexplorerservice.controller;
 
-import com.erzhanov.gitexplorerservice.dto.GitHubRepo;
+import com.erzhanov.gitexplorerservice.dto.GitRepository;
 import com.erzhanov.gitexplorerservice.service.GithubRepoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class GithubRepoController {
     private final GithubRepoService githubRepoService;
 
     @GetMapping("/{username}")
-    public Mono<ResponseEntity<List<GitHubRepo>>> findAllUserRepos(@PathVariable String username) {
+    public Mono<ResponseEntity<List<GitRepository>>> findAllUserRepos(@PathVariable String username) {
         return githubRepoService.findAllUserRepos(username)
                 .collectList()
                 .map(ResponseEntity::ok);
