@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.net.URI;
 import java.util.List;
 
-@FeignClient(name = "githubClient")
+@FeignClient(name = "githubClient", url = "https://api.github.com")
 public interface GithubClient {
 
     @GetMapping(path = "/users/{username}/repos")
