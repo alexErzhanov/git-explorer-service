@@ -13,7 +13,7 @@ import java.util.List;
 @ToString(of = {"name"})
 public class GitRepository {
     private String name;
-    private boolean isFork;
+    private boolean fork;
     private GitHubUser owner;
     private List<GitBranch> branches;
 }

@@ -117,7 +117,7 @@ class GithubRepoServiceUnitTest {
     private GitRepository createRepo(int number, boolean isFork) {
         return GitRepository.builder()
                 .name("repo %d".formatted(number))
-                .isFork(isFork)
+                .fork(isFork)
                 .build();
     }
 
