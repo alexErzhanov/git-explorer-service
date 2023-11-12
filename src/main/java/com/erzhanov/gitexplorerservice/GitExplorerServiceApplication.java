@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-@OpenAPIDefinition(info = @Info(title = "Git Explorer Service", version = "0.1"))
+@OpenAPIDefinition(info = @Info(title = "Git Explorer Service", version = "0.0.1"))
 public class GitExplorerServiceApplication {
 
     public static void main(String[] args) {

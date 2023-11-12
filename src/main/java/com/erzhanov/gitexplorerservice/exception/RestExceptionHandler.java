@@ -12,17 +12,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class RestExceptionHandler {
+
+    public static final String GITHUB_USER_NOT_FOUND = "Github user not found";
+
     @ExceptionHandler(FeignException.NotFound.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(FeignException.NotFound e) {
+    public ResponseEntity<ErrorResponse> handleNotFoundException(FeignException.NotFound ex) {
+        log.warn("Thrown exception: {}", ex.getMessage());
         var errorResponse = ErrorResponse.builder()
                 .status(HttpStatus.NOT_FOUND.value())
-                .message("Github user not found")
+                .message(GITHUB_USER_NOT_FOUND)
                 .build();
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidMediaTypeException.class)
     public ResponseEntity<ErrorResponse> handleInvalidMediaTypeException(InvalidMediaTypeException ex) {
+        log.warn("An exception occurred: {}", ex.getMessage());
         ErrorResponse errorResponse =
                 ErrorResponse.builder()
                         .status(HttpStatus.NOT_ACCEPTABLE.value())

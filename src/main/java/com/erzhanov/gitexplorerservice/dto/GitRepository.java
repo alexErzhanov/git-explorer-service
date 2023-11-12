@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @Builder
 @EqualsAndHashCode
+@ToString(of = {"name"})
 public class GitRepository {
     private String name;
     private boolean isFork;
