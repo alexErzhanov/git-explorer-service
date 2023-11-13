@@ -15,6 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 public class GithubRepoControllerIT {
     public static final String USERNAME = "alexErzhanov";
     public static final String INVALID_USERNAME = "alexErzhanov1";
+    public static final int CURRENT_AMOUNT_OF_PUBLIC_REPOS = 6;
 
     @Autowired
     private WebTestClient webTestClient;
@@ -29,7 +30,7 @@ public class GithubRepoControllerIT {
                 .expectBodyList(GitRepository.class)
                 .consumeWith(response -> {
                     var repos = response.getResponseBody();
-                    Assertions.assertThat(repos).isNotEmpty().hasSize(5);
+                    Assertions.assertThat(repos).isNotEmpty().hasSize(CURRENT_AMOUNT_OF_PUBLIC_REPOS);
                 });
     }
 
